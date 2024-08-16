@@ -97,7 +97,6 @@ void readWrite(int fd_read, int fd_write, long long startIndex, long long endInd
     long long bytesRead = 0;
     while(completed<=file_size)
     {
-        //cout << completed << "\n";
         progress = (completed*100/file_size);
         writeToTerminal("\rProgress: ( " + to_string(progress) + "% )");
         temp1 = read(fd_read, buffer, (int)min((long long)buffer_size, endIndex-(startIndex+bytesRead)));
