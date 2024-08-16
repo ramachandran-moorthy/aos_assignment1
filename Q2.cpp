@@ -38,6 +38,54 @@ bool checkReverse(int fd1, int fd2, long long file_size)
     return false;
 }
 
+void checkPermissions(struct stat st, string file)
+{
+    int x = ((st.st_mode) & (S_IRUSR));
+    string str = "User has read permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IWUSR));
+    str = "User has write permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IXUSR));
+    str = "User has execute permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IRGRP));
+    str = "Group has read permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IWGRP));
+    str = "Group has write permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IXGRP));
+    str = "Group has execute permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IROTH));
+    str = "Other has read permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IWOTH));
+    str = "Other has write permission on " + file + ": ";
+    str += x?"Yes\n":"No\n";
+    write(1, &str[0], str.length());
+
+    x = ((st.st_mode) & (S_IXOTH));
+    str = "Other has execute permission on " + file + ": ";
+    str += x?"Yes\n\n":"No\n\n";
+    write(1, &str[0], str.length());
+}
+
 int main(int argc, char * argv[])
 {
     int fd1 = open(argv[1], O_RDONLY);
@@ -92,142 +140,13 @@ int main(int argc, char * argv[])
     write(1, &str[0], str.length());
 
     //New file permissions
-    int x = ((st2.st_mode) & (S_IRUSR));
-    str = "User has read permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IWUSR));
-    str = "User has write permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IXUSR));
-    str = "User has execute permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IRGRP));
-    str = "Group has read permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IWGRP));
-    str = "Group has write permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IXGRP));
-    str = "Group has execute permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IROTH));
-    str = "Other has read permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IWOTH));
-    str = "Other has write permission on new file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st2.st_mode) & (S_IXOTH));
-    str = "Other has execute permission on new file: ";
-    str += x?"Yes\n\n":"No\n\n";
-    write(1, &str[0], str.length());
+    checkPermissions(st1, "new file");
 
     //Old file permissions
-    x = ((st1.st_mode) & (S_IRUSR));
-    str = "User has read permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IWUSR));
-    str = "User has write permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IXUSR));
-    str = "User has execute permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IRGRP));
-    str = "Group has read permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IWGRP));
-    str = "Group has write permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IXGRP));
-    str = "Group has execute permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IROTH));
-    str = "Other has read permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IWOTH));
-    str = "Other has write permission on old file: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((st1.st_mode) & (S_IXOTH));
-    str = "Other has execute permission on old file: ";
-    str += x?"Yes\n\n":"No\n\n";
-    write(1, &str[0], str.length());
+    checkPermissions(st2, "old file");
 
     //Directory permissions
-    x = ((dir.st_mode) & (S_IRUSR));
-    str = "User has read permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IWUSR));
-    str = "User has write permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IXUSR));
-    str = "User has execute permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IRGRP));
-    str = "Group has read permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IWGRP));
-    str = "Group has write permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IXGRP));
-    str = "Group has execute permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IROTH));
-    str = "Other has read permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IWOTH));
-    str = "Other has write permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
-
-    x = ((dir.st_mode) & (S_IXOTH));
-    str = "Other has execute permission on directory: ";
-    str += x?"Yes\n":"No\n";
-    write(1, &str[0], str.length());
+    checkPermissions(dir, "directory");
 
     return 0;
 }
